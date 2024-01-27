@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { fetchDoggyData, fetchRandomDoggyData } from './services/blockchainService';
+import { fetchDoggyData, fetchRandomDoggyData } from './utils/blockchainService';
 import SearchBar from './components/SearchBar.vue';
 import NFTDisplay from './components/NFTDisplay.vue';
 
