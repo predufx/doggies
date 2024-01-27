@@ -4,21 +4,16 @@
     <div v-if="loading" class="loader"><span></span></div>
     <div class="logo"></div>
     <h1>The Doggies Explorer</h1>
-    <SearchBar :tokenId="tokenId" @update:tokenId="tokenId = $event" @search="() => fetchdoggyData(tokenId)"
-      @random-search="fetchRandomdoggyData" />
+    <SearchBar :tokenId="tokenId" @update:tokenId="tokenId = $event" @search="fetchDoggyDataWrapper"
+      @random-search="fetchRandomDoggyDataWrapper" />
     <NFTDisplay :doggyData="doggyData" />
   </div>
 </template>
 
 <script>
-import Web3 from 'web3';
-import DoggiesContractABI from './contracts/DoggiesContractABI.json';
+import { fetchDoggyData, fetchRandomDoggyData } from './services/blockchainService';
 import SearchBar from './components/SearchBar.vue';
 import NFTDisplay from './components/NFTDisplay.vue';
-
-const contractAddress = '0xC7dF86762ba83f2a6197e1Ff9Bb40ae0f696B9E6';
-const infuraUrl = 'https://mainnet.infura.io/v3/e19b1682d0314164ab343d4020d73173';
-const web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
 
 export default {
   name: 'App',
@@ -30,70 +25,29 @@ export default {
     return {
       tokenId: '',
       doggyData: null,
-      contract: new web3.eth.Contract(DoggiesContractABI, contractAddress),
       loading: false,
     };
   },
   methods: {
-    async fetchdoggyData(tokenId) {
-      console.log("Getting doggy Data...");
+    async fetchDoggyDataWrapper() {
       this.loading = true;
-      if (!tokenId) {
-        alert("Please enter a token ID.");
-        this.loading = false;
-        return;
-      }
-
       try {
-        const tokenURI = await this.contract.methods.tokenURI(tokenId).call();
-        const ownerAddress = await this.contract.methods.ownerOf(tokenId).call();
-
-        // Fetch metadata from the tokenURI
-        const response = await fetch(tokenURI);
-        const metadata = await response.json();
-
-        this.doggyData = {
-          name: metadata.name,
-          iframe: metadata.iframe_url,
-          image: metadata.image_url,
-          owner: ownerAddress,
-          description: metadata.description,
-          attributes: metadata.attributes,
-        };
+        this.doggyData = await fetchDoggyData(this.tokenId);
       } catch (error) {
-        console.error('Error fetching data:', error);
-        this.doggyData = null; // Reset data in case of error
-        this.loading = false;
+        alert("Failed to fetch data for the given token ID.");
+        this.doggyData = null;
       }
       this.loading = false;
     },
-
-    // Total supply of doggies needed for the random number generator
-    async fetchTotalSupply() {
-      console.log("Fething total supply...");
-      try {
-        return await this.contract.methods.totalSupply().call();
-      } catch (error) {
-        console.error('Error fetching total supply:', error);
-        return null;
-      }
-    },
-
-    async fetchRandomdoggyData() {
-      console.log("Random search triggered");
+    async fetchRandomDoggyDataWrapper() {
       this.loading = true;
-      this.tokenId = '';
-      const totalSupply = await this.fetchTotalSupply();
-      const totalSupplyNumber = Number(totalSupply);
-
-      if (totalSupplyNumber) {
-        const randomTokenId = Math.floor(Math.random() * totalSupplyNumber) + 1;
-        console.log("Random NFT", randomTokenId);
-        this.fetchdoggyData(String(randomTokenId));
-      } else {
-        console.error("Failed to fetch total supply of Doggies.");
-        alert("Failed to fetch total supply of Doggies.");
+      try {
+        this.doggyData = await fetchRandomDoggyData();
+      } catch (error) {
+        alert("Failed to perform random search.");
+        this.doggyData = null;
       }
+      this.loading = false;
     }
   },
 };
