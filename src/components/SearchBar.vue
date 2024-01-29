@@ -68,8 +68,14 @@ export default {
             background-color: #23b3a7;
         }
 
-        &:hover {
+        &:active {
             background-color: #000000;
+        }
+
+        @media (min-width: 769px) {
+            &:hover {
+                background-color: #000000;
+            }
         }
     }
 
