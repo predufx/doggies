@@ -1,10 +1,15 @@
 <template>
-    <div class="search-bar">
+    <section class="search-bar">
         <input type="search" :value="tokenId" @input="$emit('update:tokenId', $event.target.value)" id="SearchInput"
-            placeholder="Type Token ID..." />
-        <input type="button" @click="onSearchClick" value="Search" />
-        <input type="button" @click="onRandomSearchClick" value="Random Search" />
-    </div>
+            class="search-bar__input" placeholder="Type ID..." aria-label="Search Token ID" />
+        <button type="button" @click="onSearchClick" class="search-bar__button search-bar__button--search">
+            Search
+        </button>
+        <span> or </span>
+        <button type="button" @click="onRandomSearchClick" class="search-bar__button search-bar__button--random">
+            Random ID
+        </button>
+    </section>
 </template>
   
 <script>
@@ -24,34 +29,75 @@ export default {
 };
 </script>
   
-<style scoped>
+<style lang="scss" scoped>
 .search-bar {
     display: flex;
-    padding: 10px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    margin-top: 20px;
+
+    &__input {
+        height: 44px;
+        border-radius: 50px;
+        width: 250px;
+        border: none;
+        font-size: 1.2rem;
+        padding-left: 10px;
+        padding-right: 30px;
+    }
+
+    &__button {
+        height: 40px;
+        border-radius: 50px;
+        min-width: 100px;
+        border: none;
+        color: #fff;
+        font-size: 1.1rem;
+        cursor: pointer;
+        padding-left: 15px;
+        padding-right: 15px;
+
+        &--search {
+            position: absolute;
+            left: calc(250px - 102px);
+            top: 2px;
+            background-color: #75ad32;
+
+        }
+
+        &--random {
+            background-color: #23b3a7;
+        }
+
+        &:hover {
+            background-color: #000000;
+        }
+    }
+
+    span {
+        display: flex;
+        align-self: center;
+        margin-left: 10px;
+        margin-right: 10px;
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 300;
+    }
 }
 
-.search-bar input[type="search"] {
-    flex: 1;
-    padding: 8px 12px;
-    border: 1px solid #949494;
-    border-radius: 8px;
-    margin-right: 8px;
-}
+// Mobile View Media Queries
+@media (max-width: 768px) {
+    .search-bar {
+        flex-direction: column;
 
-.search-bar input[type="button"] {
-    padding: 8px 15px;
-    background-color: #0080ff;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    margin: 10px;
-}
+        &__button {
+            width: 100%;
+            position: static;
+            margin-top: 10px;
+        }
 
-.search-bar input[type="button"]:hover {
-    background-color: #0066cc;
+        span {
+            display: none;
+        }
+    }
 }
 </style>
