@@ -1,4 +1,5 @@
 <template>
+  <div class="btn-theme" ref="btnTheme" @click="toggleTheme">&#9728;</div>
   <div class="app-container">
 
     <!-- Loader -->
@@ -6,6 +7,7 @@
 
     <!-- Header -->
     <header class="header">
+
       <div class="header__logo"></div>
       <h1>THE DOGGIES EXPLORER</h1>
       <div class="header__separator">
@@ -46,7 +48,14 @@ export default {
       tokenId: '',
       doggyData: null,
       loading: false,
+      isDarkTheme: true,
     };
+  },
+  mounted() {
+    if (this.isDarkTheme) {
+      document.body.classList.add('dark-theme');
+      this.$refs.btnTheme.innerHTML = '&#9728;'; // Sun emoji, since dark theme is default
+    }
   },
   methods: {
     async fetchDoggyDataWrapper() {
@@ -69,22 +78,32 @@ export default {
         this.doggyData = null;
       }
       this.loading = false;
-    }
+    },
+    toggleTheme() {
+      this.isDarkTheme = !this.isDarkTheme;
+      if (this.isDarkTheme) {
+        document.body.classList.add('dark-theme');
+        this.$refs.btnTheme.innerHTML = '&#9728;'; // Use the sun emoji for light theme
+      } else {
+        document.body.classList.remove('dark-theme');
+        this.$refs.btnTheme.innerHTML = '&#9790;'; // Use the moon emoji for dark theme
+      }
+    },
   },
 };
 </script>
 
 <style lang="scss">
-html {
+body {
   font-family: 'Roboto Condensed', sans-serif;
   background-image: url('./assets/background-img.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center center;
-  min-height: 100vh;
+  min-height: calc(100vh - 1rem);
+  position: relative;
 }
-
 
 a {
   color: #0080ff;
@@ -95,6 +114,15 @@ h2,
 h3,
 h4 {
   font-weight: 400;
+}
+
+.btn-theme {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 3rem;
+  color: #fff;
+  cursor: pointer;
 }
 
 .app-container {
@@ -116,19 +144,19 @@ h4 {
     z-index: 99;
     top: 0;
     bottom: 0;
-  }
 
-  .loader span {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #3498db;
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    animation: spin 2s linear infinite;
-    background-color: #d3d3d3;
-    display: block;
-    margin: auto;
-    margin-top: 30vh;
+    span {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #75ad32;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      animation: spin 2s linear infinite;
+      background-color: #d3d3d3;
+      display: block;
+      margin: auto;
+      margin-top: 30vh;
+    }
   }
 
   .header {
@@ -194,6 +222,21 @@ h4 {
   }
 }
 
+// Dark theme
+body.dark-theme {
+  background-image: url('./assets/background-img-dark.jpg');
+}
+
+.dark-theme .loader {
+
+  span {
+    border: 4px solid #384e1e;
+    border-top: 4px solid #75ad32;
+    background-color: #000000;
+  }
+}
+
+// Loader animation
 @keyframes spin {
   0% {
     transform: rotate(0deg);

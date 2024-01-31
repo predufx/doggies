@@ -36,7 +36,7 @@ export default {
     margin-top: 20px;
 
     &__input {
-        height: 44px;
+        height: 48px;
         border-radius: 50px;
         width: 250px;
         border: none;
@@ -55,11 +55,11 @@ export default {
         cursor: pointer;
         padding-left: 15px;
         padding-right: 15px;
+        margin-top: 4px;
 
         &--search {
             position: absolute;
-            left: calc(250px - 102px);
-            top: 2px;
+            left: calc(250px - 104px);
             background-color: #75ad32;
 
         }
@@ -103,6 +103,31 @@ export default {
 
         span {
             display: none;
+        }
+    }
+}
+
+// Dark theme
+.dark-theme {
+    .search-bar {
+
+        &__input {
+            background-color: #000000;
+            border: 1px solid #75ad32;
+            color: #fff;
+        }
+
+        &__button {
+            color: #fff;
+
+            &--search {
+                background-color: #75ad32;
+
+            }
+
+            &--random {
+                background-color: #23b3a7;
+            }
         }
     }
 }

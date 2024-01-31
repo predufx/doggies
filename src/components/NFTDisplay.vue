@@ -139,10 +139,11 @@ export default {
 
                 &__type {
                     text-transform: uppercase;
+                    font-size: 0.85rem;
                 }
 
                 &__value {
-                    font-weight: 700;
+                    font-weight: 400;
                     color: #357230;
                     font-size: 1.1rem;
                 }
@@ -182,6 +183,52 @@ export default {
                     margin-bottom: 0;
                 }
 
+            }
+        }
+    }
+}
+
+// Dark theme
+.dark-theme {
+    .nft-container {
+        background-color: rgba($color: #ffffff, $alpha: 0.15);
+        color: #dbdbdb;
+
+        &__nft-details {
+            background-color: rgba($color: #1C1C1C, $alpha: 1);
+            border-top: 1px solid #75ad32;
+
+            &__header {
+
+                &__title {
+
+                    &__avatar {
+                        background-color: rgb(24, 24, 24);
+                    }
+                }
+            }
+
+            &__3d {
+
+                &__nft-iframe {
+                    background-color: rgb(24, 24, 24);
+                }
+            }
+        }
+
+        &__nft-traits {
+            background-color: rgba($color: #1C1C1C, $alpha: 1);
+            border-top: 1px solid #75ad32;
+
+            &__list {
+
+                &__trait {
+                    background-color: #242622;
+
+                    &__value {
+                        color: #75AD32;
+                    }
+                }
             }
         }
     }
