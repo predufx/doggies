@@ -118,8 +118,8 @@ h4 {
 
 .btn-theme {
   position: absolute;
-  top: 10px;
-  right: 20px;
+  top: 20px;
+  right: 10px;
   font-size: 3rem;
   color: #fff;
   cursor: pointer;
