@@ -1,6 +1,6 @@
 <template>
     <section class="search-bar">
-        <input type="search" :value="tokenId" @input="$emit('update:tokenId', $event.target.value)" id="SearchInput"
+        <input type="search" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" id="SearchInput"
             class="search-bar__input" placeholder="Type ID..." aria-label="Search Token ID" />
         <button type="button" @click="onSearchClick" class="search-bar__button search-bar__button--search">
             Search
@@ -16,7 +16,7 @@
 export default {
     name: 'SearchBar',
     props: {
-        tokenId: String,
+        modelValue: String,
     },
     methods: {
         onSearchClick() {

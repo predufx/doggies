@@ -19,8 +19,7 @@
     </header>
 
     <!-- SearchBar -->
-    <SearchBar :tokenId="tokenId" @update:tokenId="tokenId = $event" @search="fetchDoggyDataWrapper"
-      @random-search="fetchRandomDoggyDataWrapper" />
+    <SearchBar v-model="tokenId" @search="fetchDoggyDataWrapper" @random-search="fetchRandomDoggyDataWrapper" />
 
     <!-- SnoopDogg welcome -->
     <section v-if="!doggyData" class="snoop-welcome">
